@@ -2,12 +2,14 @@ import java.util.Random;
 
 public class Task {
     String id;
+    int priority;
     long timestamp;
     long execDuration;
 
-    public Task(String id, long timestamp) {
+    public Task(String id, long timestamp, int priority) {
         this.id = id;
         this.timestamp = timestamp;
+        this.priority = priority;
     }
 
     public void execute() {

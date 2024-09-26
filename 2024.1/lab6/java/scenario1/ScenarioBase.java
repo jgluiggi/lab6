@@ -1,14 +1,18 @@
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
+
+
 
 public class ScenarioBase {
 
+
     public static void main(String[] args) {
-        var queue = new ConcurrentLinkedQueue<Task>();
+        var queue = new PriorityBlockingQueue<Task>(11, new PriorityCompare());
         var scheduler = Executors.newScheduledThreadPool(1);
         var array = new ArrayList<LinkedList<Task>>(3);
         for (int i = 0; i < 3; i++) {
@@ -20,8 +24,8 @@ public class ScenarioBase {
             status(array, timestamp);
         }, 0, 5, TimeUnit.SECONDS);
 
-        var executorTaskProducer = Executors.newFixedThreadPool(5);
-        for (int i = 0; i < 5; i++) {
+        var executorTaskProducer = Executors.newFixedThreadPool(3);
+        for (int i = 0; i < 3; i++) {
             executorTaskProducer.submit(new TaskProducer(queue, i));
         }
 
